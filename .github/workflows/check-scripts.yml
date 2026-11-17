@@ -22,3 +22,4 @@ jobs:
       - name: Run configuration exercise
         shell: bash
         run: bash task-2-configuration/check-service.sh
+        working-directory: ./junior
