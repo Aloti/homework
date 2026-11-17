@@ -58,3 +58,20 @@ and pull request triggers, and ensure a script failure fails the workflow.
 
 Stop after approximately one hour. If anything remains unresolved, submit
 your progress, what you tried, and what you would investigate next.
+
+## Findings
+
+### Task 1:
+First, the script had a couple of typos. I was lucky that my code editor highlighted a U+2800 character and that helped me check other typos found.
+
+One issue in the script is that bash variables can't hold null bytes, so it would just drop in the chance the randomly created bytes contained one.
+
+Another issue is that command substitution strips new lines, so it could be unlucky that the last byte coudl be a new line and it would be stripped out.
+
+Last issue I found is that appending with '<<<' appends a new line giving an innaccurate number of bytes based on the initial save.
+
+### Task 2:
+When running the script, the error is clear. It cannot find the file fetched. Why? For me it was easy to understand that the code path was relative and that's why it fails from other directories. Just adding a line to fetch the path of the current script in a variable and then prefix that variable to the path of the configuration file did the trick.
+
+### Task 3:
+The error in the pipeline clearly showed it can't find actions/checkout@v*9*. A quick google search on what is the actual version available of the checkout action and easy to replace the version value. On a quick glance before running again, I saw that the third step was missing the working directory which would make it fail similar to the issue on Task 2. Once I paid more attention to each step, I noticed the script names didn't match, so I just updated to the appropriate names and the pipeline was successful.
